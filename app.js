@@ -38,13 +38,23 @@ var UIController = (function() {
 // GLOBAL APP CONTROLLER
 var controller = (function(budgetCtrl, UICtrl) {
 
-    var DOM = UICtrl.getDOMStrings();
+    var setupEventListeners = function() {
+        var DOM = UICtrl.getDOMStrings();
+
+        document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+
+        document.addEventListener('keypress', function(event) {
+            
+            if (event.keyCode === 13 ) {
+                ctrlAddItem();
+            }
+        });
+    };
 
     var ctrlAddItem = function() {
 
         // 1. Get the field input data
             var input = UICtrl.getInput();
-            console.log(input); 
 
         // 2. Add the item to the budget controller
 
@@ -55,14 +65,12 @@ var controller = (function(budgetCtrl, UICtrl) {
         // 5. Display the budget on the UI
     };
 
-    document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
-
-    document.addEventListener('keypress', function(event) {
-        
-        if (event.keyCode === 13 ) {
-            ctrlAddItem();
+    return {
+        init: function() {
+            console.log('App has stareterd');
+            setupEventListeners();
         }
-
-    });
-
+    };
 })(budgetController, UIController);
+
+controller.init(); // Init Function, code that is executed at the begging of app
